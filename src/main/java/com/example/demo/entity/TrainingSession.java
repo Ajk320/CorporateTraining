@@ -1,11 +1,10 @@
 package com.example.demo.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class TrainingSession {
@@ -85,6 +84,10 @@ public class TrainingSession {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String name;
 
     public LocalDateTime startDate;
@@ -99,5 +102,14 @@ public class TrainingSession {
     public String state;
     public String postalCode;
 
+    public Set<Enrollment> getEnrollments() {
+        return enrollments;
+    }
 
+    public void setEnrollments(Set<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    @OneToMany(mappedBy = "trainingSession")
+    private Set<Enrollment> enrollments = new HashSet<>();
 }

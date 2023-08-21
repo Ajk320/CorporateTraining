@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html
+        lang="en"
+        xmlns:th="http://www.thymeLeaf.org"
+        th:replace="base::Layout(~{::section})"
+>
+<head>
+    <meta charset="ISO-8859-1" />
+    <title>Corporate Course Session</title>
+</head>
+<body>
+<section>
+    <div class="container p-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div >
+                    <div class="text-center fs-4">Courses</div>
+
+                    <div class="">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Speaker</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">City</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="course: ${trainingSessions}">
+                                <td th:text="${course.name}" />
+                                <td th:text="${course.description}" />
+                                <td th:text="${course.speaker}" />
+                                <td th:text="${course.startDate}" />
+                                <td th:text="${course.streetAddress}" />
+                                <td th:text="${course.city}" />
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

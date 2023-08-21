@@ -1,9 +1,15 @@
 package com.example.demo.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import com.example.demo.entity.Enrollment;
 import com.example.demo.entity.TrainingSession;
+import com.example.demo.repository.EnrollmentRepo;
 import com.example.demo.repository.TrainingSessionRepo;
+import com.example.demo.service.EnrollmentService;
 import com.example.demo.service.TrainingSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,11 +24,15 @@ import com.example.demo.service.UserService;
 
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class HomeController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EnrollmentService enrollmentService;
 
     @Autowired
     private TrainingSessionService trainingSessionService;
@@ -31,6 +41,9 @@ public class HomeController {
 
     @Autowired
     private TrainingSessionRepo trainingSessionRepo;
+
+    @Autowired
+    private EnrollmentRepo enrollmentRepo;
 
     @GetMapping("/")
     public String index() {
@@ -42,7 +55,7 @@ public class HomeController {
         return "register";
     }
 
-    @GetMapping("/registerCourse")
+    @GetMapping("/user/registerCourse")
     public String registerCourse() {
         return "registercourse";
     }
@@ -65,6 +78,56 @@ public class HomeController {
         return "home";
     }
 
+    @GetMapping("/user/courses")
+    public String courses(Model model) {
+        List<TrainingSession> trainingSessions = trainingSessionRepo.findAll();
+        model.addAttribute("trainingSessions", trainingSessions);
+        return "courses";
+    }
+
+    @GetMapping("/user/enroll")
+    public String enroll(Principal p,Model model) {
+        List<TrainingSession> trainingSessions = trainingSessionRepo.findAll();
+        List<TrainingSession> trainingSessionsToEnroll = new ArrayList<TrainingSession>();
+        List<TrainingSession> trainingSessionsToUnenroll = new ArrayList<TrainingSession>();
+        for(TrainingSession session:  trainingSessions ){
+            boolean isEnrolled = false;
+            for(Enrollment enrollment: session.getEnrollments()){
+                if(enrollment.getUser().getEmail().equals(p.getName())) {
+                    trainingSessionsToUnenroll.add(session);
+                    isEnrolled = true;
+                }
+            }
+            if(!isEnrolled){
+                trainingSessionsToEnroll.add(session);
+            }
+        }
+        String email = p.getName();
+        User user = userRepo.findByEmail(email);
+        model.addAttribute("user", user);
+        model.addAttribute("trainingSessionsToEnroll", trainingSessionsToEnroll);
+        model.addAttribute("trainingSessionsToUnenroll", trainingSessionsToUnenroll);
+        return "enroll";
+    }
+
+    @PostMapping("/user/add-enrollment")
+    public String addEnrollment(@RequestParam Integer userId, @RequestParam Integer trainingSessionId){
+        User user = userRepo.findById(userId).get();
+        TrainingSession trainingSession = trainingSessionRepo.findById(trainingSessionId).get();
+        Enrollment e = enrollmentService.saveEnrollment(new Enrollment(user,trainingSession));
+        return "redirect:/user/enroll";
+    }
+
+    @PostMapping("/user/remove-enrollment")
+    public String deleteEnrollment(@RequestParam Integer userId, @RequestParam Integer trainingSessionId){
+        User user = userRepo.findById(userId).get();
+        TrainingSession trainingSession = trainingSessionRepo.findById(trainingSessionId).get();
+        //Add code to remove enrollment
+        Enrollment e = enrollmentRepo.findByUserIdAndTrainingSessionId(userId, trainingSessionId);
+        enrollmentRepo.delete(e);
+        return "redirect:/user/enroll";
+    }
+
     @PostMapping("/saveUser")
     public String saveUser(@ModelAttribute User user, HttpSession session) {
         //System.out.println(user);
@@ -78,7 +141,7 @@ public class HomeController {
         return "redirect:/register";
     }
 
-    @PostMapping("/saveTrainingSession")
+    @PostMapping("/user/saveTrainingSession")
     public String saveTrainingSession(@ModelAttribute TrainingSession trainingSession, HttpSession session) {
         //System.out.println(user);
         TrainingSession trainingSession1 = trainingSessionService.saveTrainingSession(trainingSession);
@@ -88,7 +151,7 @@ public class HomeController {
         } else {
             session.setAttribute("msg", "Something went wrong on server");
         }
-        return "redirect:/registerCourse";
+        return "redirect:/user/courses";
     }
 
     @GetMapping("/logout")
