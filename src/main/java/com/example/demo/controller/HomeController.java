@@ -47,7 +47,11 @@ public class HomeController {
 
     @GetMapping("/")
     public String index() {
-        return "index";
+        return "login";
+    }
+    @GetMapping("/admin")
+    public String registerAdmin() {
+        return "registerAdmin";
     }
 
     @GetMapping("/register")
@@ -74,7 +78,10 @@ public class HomeController {
     }
 
     @GetMapping("/user/home")
-    public String home() {
+    public String home(Principal p, Model m) {
+        String email = p.getName();
+        User user = userRepo.findByEmail(email);
+        m.addAttribute("user", user);
         return "home";
     }
 
@@ -110,6 +117,25 @@ public class HomeController {
         return "enroll";
     }
 
+
+    @GetMapping("/user/enrollments")
+    public String enrollments(Principal p,Model model) {
+        List<TrainingSession> trainingSessions = trainingSessionRepo.findAll();
+        List<TrainingSession> trainingSessionsEnrolled = new ArrayList<TrainingSession>();
+        for(TrainingSession session:  trainingSessions ){
+            for(Enrollment enrollment: session.getEnrollments()){
+                if(enrollment.getUser().getEmail().equals(p.getName())) {
+                    trainingSessionsEnrolled.add(session);
+                }
+            }
+        }
+        String email = p.getName();
+        User user = userRepo.findByEmail(email);
+        model.addAttribute("user", user);
+        model.addAttribute("trainingSessionsEnrolled", trainingSessionsEnrolled);
+        return "enrollments";
+    }
+
     @PostMapping("/user/add-enrollment")
     public String addEnrollment(@RequestParam Integer userId, @RequestParam Integer trainingSessionId){
         User user = userRepo.findById(userId).get();
@@ -134,7 +160,7 @@ public class HomeController {
         User user1 = userService.saveUser(user);
 
         if (user1 != null) {
-            session.setAttribute("msg", "register successfully");
+            session.setAttribute("msg", "User Registered Successfully");
         } else {
             session.setAttribute("msg", "Something went wrong on server");
         }
@@ -154,10 +180,10 @@ public class HomeController {
         return "redirect:/user/courses";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-
-        return "redirect:/login";
+    @GetMapping("/user/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/signin";
     }
 
     @ModelAttribute

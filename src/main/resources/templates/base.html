@@ -6,6 +6,18 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+          integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
@@ -17,15 +29,22 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/user/home">Home</a>
-                </li>
                 <th:block th:if="${!(user==NULL)}">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="courses">Courses</a>
-                </li>
-                <li class="nav-item"><a class="nav-link" href="registerCourse">Register Course</a></li>
-                <li class="nav-item"><a class="nav-link" href="enroll">Enroll Course</a></li>
+                    <li class="nav-item"><a class="nav-link" href="home">Home</a></li>
+                    <th:block th:if="${(user.role==1)}">
+                        <li class="nav-item"><a class="nav-link" href="registerCourse">Register Course</a></li>
+                    </th:block>
+                    <th:block th:if="${(user.role==0)}">
+                        <li class="nav-item"><a class="nav-link" href="enrollments">My Enrollments</a></li>
+                    </th:block>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="courses">Courses</a>
+                    </li>
+                    <th:block th:if="${(user.role==0)}">
+                        <li class="nav-item"><a class="nav-link" href="enroll">Enroll Course</a></li>
+                    </th:block>
+
+                    <li class="nav-item"><a class="nav-link" href="logout">Logout</a></li>
                 </th:block>
                 <th:block th:if="${user==NULL}">
                     <li class="nav-item"><a class="nav-link" href="register">Register</a></li>

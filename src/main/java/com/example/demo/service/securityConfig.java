@@ -35,9 +35,9 @@ public class securityConfig {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-				.authorizeHttpRequests().requestMatchers("/", "/register", "/signin", "/saveUser").permitAll()
+				.authorizeHttpRequests().requestMatchers("/", "/admin", "/saveAdminUser", "/register", "/signin", "/saveUser").permitAll()
 				.requestMatchers("/user/**").authenticated().and()
-				.formLogin().loginPage("/signin").loginProcessingUrl("/userLogin").defaultSuccessUrl("/user/profile").permitAll();
+				.formLogin().loginPage("/signin").loginProcessingUrl("/userLogin").defaultSuccessUrl("/user/home").permitAll();
 		return http.build();
 	}
 

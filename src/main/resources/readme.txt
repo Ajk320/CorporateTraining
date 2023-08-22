@@ -1,0 +1,2 @@
+--username:admin@admin.com password: admin
+--username:clarkkent@krypton.com password: Welcome@1

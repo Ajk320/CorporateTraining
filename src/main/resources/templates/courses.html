@@ -26,6 +26,7 @@
                                 <th scope="col">Start Date</th>
                                 <th scope="col">Address</th>
                                 <th scope="col">City</th>
+                                <th scope="col">Location</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -36,6 +37,31 @@
                                 <td th:text="${course.startDate}" />
                                 <td th:text="${course.streetAddress}" />
                                 <td th:text="${course.city}" />
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" th:data-target="${'#exampleModal'+course.id }">
+                                        Open
+                                    </button>
+                                    <div class="modal fade" th:id="exampleModal+${course.id }" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Location</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <iframe th:src="${course.location}" width="400" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -44,6 +70,6 @@
             </div>
         </div>
     </div>
-</section>
+    </section>
 </body>
 </html>

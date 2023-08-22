@@ -6,7 +6,56 @@
 	</head>
 	<body>
 		<section>
-		<h1>Home</h1>
+			<div class="row">
+				<th:block th:if="${(user.role==0)}">
+					<div class="col-sm-3">
+						<div class="card">
+							<a href="enrollments">
+							<div class="card-body">
+								<img class="card-img-top" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAeFBMVEX///8AAADe3t52dnYyMjLX19c3NzcdHR3q6uq6urqhoaFQUFCkpKTm5uaLi4svLy9lZWV8fHz5+fnBwcEmJibMzMxqamoQEBBdXV2Tk5Oqqqo8PDwcHBzz8/NxcXHJyclHR0eDg4NUVFQNDQ2YmJhEREQpKSmysrLQdtG9AAAIGklEQVR4nO2d6XqiMBRAIxYFFRdAESta1Nb3f8MhwQWGCyaQBWPOH7+ZtiHHQHKzghAtieXG00U0kMLcp84XL6zLVpJczkqyoiVXD7NxZPqtZOthpvIUr18qBDNFS45fMlTjl7FfyxB0lsoEB4OFBEUnVCiYcRUueFIrKFwxUXmL3oiFGs5V62FigW3/UbVczlCYoPOj2u3GVlTbP1Nt9uAkRtFX7VUg9EQY9qcIM0YC2v5kq9qqRMRfsScV6YOIe9s/qbnSeMQdur7necfZ8Be6yklIELWpXOd79w1cnW/bD9akh4TnJe4AseHIsyHFFc/L2pCgmPgJMrSQUy3ZLLzh+BVfq8nvhTRKdYbIh7reS36KcTX1DbfEy9QYIh/IA8cIDhh8Cnil/R91hgjtxtVcfNucLgvcIoWk/TXM7Qtme17rDVEANCS8FAHDwtAXVA9hXPLTeLBnyUWDIfKARuvsyjDcNxjiWGHCyRB5UPDI5Xl5YQg8IHfDS/YZskSRjYYIHYDrzFQaxsxf8gtDMH68SDH8ieP4colzLsvcEJdgxPagvDKE2mYOERyFYYpz92iBSTZcPHZ1ZuzovDRE61E1N5uubT+FYRYlrn+m91qTdJineUGy8doQWX/V7HQNkukMs4pufHvmEs+zcCgZHlkvRWEIRqmjbuENnSGuBJ7zJ+QZZK/JaQzBKPWn0+QUnaGfZp9/ean5+Bn8a9FUURki/1LNUdglvKEzzKPjPdHCsu1GU6p3IGCY1WXVEC5ifiSeUBrmvzhe5+3g/Zl00zkDabWmBA1RUG2F9+0jOGpDMrkRBcPiTdN5Vhw2BKPU1qM39IY+9sFx6rMWTQUZQlHque3kFL1hXsWUBm07Gy5qqxAgX2m78IbBMK9RB9N4ntqcDM/1VTJQpbYbP2IxzG7UaEq6AC4nw8G8PmdAlLptE95QxqUPx1tcystw0NDSHaurX9osTKHsWzy49y14GZ4a7jyv+uvf7BFc+x4w4tBaZPw2NOZJtVfMHg53MpzvQxaAjkPGOd2t7RqO0+6KHcZpsqeSjdoyP0c17IExONbp/i5jbcysa5Jjgq+hD98865adUp/H2kC+hrzZaW/oQXNpWhmCw2l6GaLuhdh3w3VN+6OPYffKpveG0BU1MwSnYPQyTKC1CVoZdux1vYVhp2bxPQyR3X69oFTDLnN712rXT4Wht1lCbPMBxeN22GFayHEXPTC0a5YTkv5hMOg60e7Nl8CcqFzDhlGMYD9o3RV+4FtHdzJf1QI0LNIMXfzJstikFZYUwygch2E4zgmj3JAIclgp8QI5hgenQEJG24PgLKMEZRmusiphuLrXmqRvcJBTghIND8/dHpbrBtIE5Rmm2cfisbCWPIM8FmS9Rpoh2Z84vSmSeXYJzyBGmmG+ifaX/IREzbx3DNQhzxAlOIz89nLB860EHYs/5UXmEg2RR25U53oulOD8j/uuk8VBmWG+QQr/+7mpRcQJBVt1hsjL+zuFXTupZoa3bW6bwHU9TQ2RMx3syb52frPcPTNEvu3sNDTceAWci4aG++8ifxoaAnBci/E/p14Z2i5/ykstxBs2jUTJQLihd9hALKUcmYMRbli3YoanRCPiDVVjDCkwhooxhhQYQ8UYQwqMoWKMIQWfbpgEMNIOVVXcA7YOIk8CzC8h3LBpNwJeyC96hkZpGdpfmhuu8RRNWp8wH+QYTicFZpvccB22uBg70se80W2lQmBjwZabOlmQN8s9md23yRDD+bliLgaZKxWGtwJbr1YpmYOScl68zNUmhS2qZL9Xw/5WjkgztHDLcD9khFQykk78l1fTWPgk3iUJ1o7ySlBqXerh5a74JLxjoR0MJvwpTxjIbC3IEY6H5Ij/5/7eDV3mnm6tgoUVyRz34xZNBRiqnOW2bzuVn8+gbobIIkeObC3bTjQ1RDhWG+GaRrNZ7kJ05sxsHddiFPoWs91uo6EhgMCVCv0yvPxMefNT7lSrHadBKHH4Uz7MQHUZiseMl1Lw6WPeyjGGFBhDxRhDCoyhYowhBcZQMcaQgk9fI6z/Om/91+rr3wP+EMP6fU/ikXRqRHHvmlfcuyYeZWsxjCE3jCEFxvDDDROPP+XBZtWG82jMm2jZK8O0+sedUTwHbAyNoTFUZAic16aZYRQWavP7mXtaGQJ8zFqM42TGG+mrL7UfiWo+g1YCZsybAmOoGGNIgTFUjDGkwBgqxhhSYAwVYwwpaDbk/O48dsT3D6s/JejTP3yxG0E8qkcxxGMMKaAwLL0POC6+D1g8cgzLO5GK73QWj+pRffEYQwqMoTEUjGpDd86f8slTqg01OzUCMEwFGJpZbmNoDCHD+rhUF8NS3+JS7FvoYgjwMSsV5uGCN3+y32il/zgNLPjuhvbzp/4aRtqpEcBXzHpcY1pNIhCS13a41eyxnpkaV5PYCMlrO4D3AceMSQBvOY+8138mCQtYk3VlTAOqSw7y9og2kxyA3Nmv/66ED6TxOOVSMQlwjw4GzF//L5TK6aq+GP3rCcraL3NCEyiZjPGXWmqiqRYvsT3WpNRXjq+V/iN/MeXbsG1RRcxUZ5qJNq+SBmvT3tKqBnynQmz3NnBnqjrf1ExbhvzkJQDvwLn1+nIg/O4lrEH3Ex8Mj3rHpkOg5YABUs84dep3OwvV+X/JouPAgtP3G3XTeeQkETH4yY8hjw6dO1KtUcuI0+Ce1ddiXPFbEGpta4aAFRJt+S549S7bmh15Soi2F/7jYokVxKeFes1ocYoDi76C+QeeUfMDQ82RFQAAAABJRU5ErkJggg==" height="150" width="50" alt="My Enrollments">
+								<h5 class="card-title">My Enrollments</h5>
+							</div>
+							</a>
+						</div>
+					</div>
+				</th:block>
+				<th:block th:if="${(user.role==1)}">
+				<div class="col-sm-3">
+					<div class="card">
+						<a href="registerCourse">
+							<div class="card-body">
+							<img class="card-img-top" src="https://static.thenounproject.com/png/2202368-200.png" height="150" width="50" alt="Register Course">
+							<h5 class="card-title">Register Course</h5>
+						</div>
+						</a>
+					</div>
+				</div>
+				</th:block>
+
+				<div class="col-sm-3">
+					<div class="card">
+						<a href="courses">
+						<div class="card-body">
+							<img class="card-img-top" src="https://www.kindpng.com/picc/m/543-5437957_png-file-svg-transparent-view-icon-png-png.png" height="150" width="50" alt="View Courses">
+							<h5 class="card-title">Courses</h5>
+						</div>
+						</a>
+					</div>
+				</div>
+				<th:block th:if="${(user.role==0)}">
+					<div class="col-sm-3">
+						<div class="card">
+							<a href="enroll">
+							<div class="card-body">
+								<img class="card-img-top" src="https://static.thenounproject.com/png/2202368-200.png" height="150" width="50" alt="Enroll Course">
+								<h5 class="card-title">Enroll Course</h5>
+							</div>
+							</a>
+						</div>
+					</div>
+				</th:block>
+
+			</div>
 		</section>
 	</body>
 </html>
