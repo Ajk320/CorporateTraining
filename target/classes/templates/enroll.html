@@ -79,7 +79,7 @@
                                 <form method="POST"
                                       th:action="@{/user/remove-enrollment(userId=${user.getId()}, trainingSessionId=${course.getId()})}">
                                     <td>
-                                        <button class="btn btn-danger  " type="submit" value="value">Un-Enroll</button>
+                                        <button class="btn btn-danger  text-nowrap" type="submit" value="value">Un-Enroll</button>
                                     </td>
                                 </form>
                                 <td th:text="${course.name}"/>
